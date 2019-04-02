@@ -27,9 +27,10 @@ object ExtractLinks {
   def extractLinksFromElements(elements: Iterable[BlockElement], source: String):List[Link] = {
     elements.toList.flatMap { element =>
       (element.`type` match {
-        case RichLink => Some(List(
-          Link(element.richLinkTypeData.get.originalUrl.getOrElse("").toString(),s"${source}RichLink") //this should map now
-        ))
+        case RichLink => for {
+          rl <- element.richLinkTypeData
+          url <- rl.originalUrl
+        } yield List(Link(url, s"${source}RichLink"))
         case Text => for {
           ttd <- element.textTypeData
           html <- ttd.html
