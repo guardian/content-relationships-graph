@@ -6,10 +6,12 @@ scalaVersion := "2.11.12"
 
 resolvers ++= Seq(
   "anormcypher" at "http://repo.anormcypher.org/",
-  "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/"
+  "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/",
+
 )
 
 libraryDependencies ++= Seq(
   "org.anormcypher" %% "anormcypher" % "0.10.0",
-  "com.gu" %% "content-api-client-default" % "12.18"
+  "com.gu" %% "content-api-client-default" % "12.18",
+  "org.jsoup" % "jsoup" % "1.11.3"
 )
