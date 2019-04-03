@@ -1,14 +1,14 @@
- 
-
 import org.neo4j.driver.v1._
 
 import scala.concurrent.Future
 import scala.collection.JavaConverters._
 
-implicit val ec = scala.concurrent.ExecutionContext.global
+object GraphStore {
+  implicit val ec = scala.concurrent.ExecutionContext.global
 
-object Store {
-  val driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "alex"))
+  val driver = GraphDatabase.driver(
+    Config.database.uri,
+    AuthTokens.basic(Config.database.username, Config.database.password))
 
   def write(something: String) = Future {
     val session = driver.session()
@@ -20,7 +20,7 @@ object Store {
   def read(something: String) = Future {
     val session = driver.session()
     val result = session.run(something) //can use a {} and parameters object?
-    result.list().asScala
+    result.list().asScala.toList
   }
 
   def close = driver.close()
