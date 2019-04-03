@@ -1,3 +1,4 @@
+import com.gu.contentapi.client.model.v1.Content
 import org.neo4j.driver.v1._
 
 import scala.concurrent.Future
@@ -16,24 +17,36 @@ object GraphStore {
       val transaction = session.beginTransaction()
       transaction.run(something)
       transaction.success()
-    }.recover {
-      case e: Exception => {
-        println("NOOO")
-        println(e)
-      }
     }
-  def read(something: String) =
-    Future {
+  def read(something: String): Future[List[Record]] = {
+    println("HELLO")
+    val f = Future {
       val session = driver.session()
       val result = session.run(something) //can use a {} and parameters object?
       result.list().asScala.toList
-    }.recover {
-      case e: Exception => {
-        println("NOOO")
-        println(e)
-      }
     }
+    f.onFailure { case t => println(s"Exception: ${t.getMessage}") }
+    f
+  }
 
+  def storeArticle(content: Content) = {
+    read(s"""
+                |MERGE (a: Page {url:"${content.webUrl}"}) SET a.title="${content.webTitle}", a.path="${content.id}
+                "
+              """.stripMargin)
+  }
+  def storeArticleLinks(content: Content) = {
+    val path = content.id
+    val links = ExtractLinks.extractLinks(content)
+    links.map { link =>
+      GraphStore.read(s"""
+                   |MERGE(a: Page {url:"${content.webUrl}"})
+                   |MERGE(b: Page {url:"${link.url}"})
+                   |MERGE (a)-[:Link {text: "${link.text}", source: "${link.source}"}]->(b)
+                 """.stripMargin)
+
+    }
+  }
   def close = driver.close()
 }
 //CREATE CONSTRAINT ON (n:Page) ASSERT n.uri IS UNIQUE;
