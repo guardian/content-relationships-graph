@@ -9,3 +9,4 @@ project/plugins/project/
 .cache
 .lib/
 .idea
+src/main/resources/application.conf
