@@ -4,7 +4,7 @@ import org.jsoup.Jsoup
 
 import scala.collection.JavaConverters._
 
-case class Link(url: String, source: String)
+case class Link(url: String, source: String, text: String)
 
 object ExtractLinks {
   def extractLinks(content: Content): Seq[Link] = {
@@ -32,7 +32,8 @@ object ExtractLinks {
           for {
             rl <- element.richLinkTypeData
             url <- rl.originalUrl
-          } yield List(Link(url, s"${source}RichLink"))
+          } yield
+            List(Link(url, s"${source}RichLink", rl.linkText.getOrElse("")))
         case Text =>
           for {
             ttd <- element.textTypeData
@@ -50,15 +51,13 @@ object ExtractLinks {
       .select("[href]")
       .asScala
       .toList
-      .map(_.attr("href"))
-      .map(Link(_, s"${source}Link"))
+      .map(a => Link(a.attr("href"), s"${source}Link", a.text))
     val srcs = doc
       .body()
       .select("[src]")
       .asScala
       .toList
-      .map(_.attr("src"))
-      .map(Link(_, s"${source}Src"))
+      .map(link => Link(link.attr("src"), s"${source}Src", link.text))
     hrefs ++ srcs
   }
 }
