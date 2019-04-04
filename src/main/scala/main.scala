@@ -4,8 +4,14 @@ object main {
   def main(args: Array[String]): Unit = {
 
     // Extract CAPI object for one Article.
-    // Content.getArticle("/politics/2019/apr/03/mps-pass-motion-to-debate-article-50-extension-by-one-vote")
-
+    /*
+    Content.getArticle("/politics/2019/apr/03/mps-pass-motion-to-debate-article-50-extension-by-one-vote")
+        .foreach{ocontent =>
+          ocontent.foreach{content =>
+            println(content)
+          }
+        }
+    */
     // Extract CAPI objects for a CAPI search term
     // Content.getArticles()
 
@@ -55,7 +61,6 @@ object main {
       }
     */
 
-    /*
     GraphStore.read("""
           |MATCH (n:Page) WHERE NOT EXISTS (n.title) RETURN n.url
         """.stripMargin).map { result =>
@@ -72,7 +77,5 @@ object main {
           }
         }
     }
-    */
-
   }
 }
