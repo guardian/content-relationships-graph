@@ -35,4 +35,9 @@ object Content {
       response.results
     }
   }
+
+  def getLinksForArticle(id: String) = {
+
+  }
+
 }

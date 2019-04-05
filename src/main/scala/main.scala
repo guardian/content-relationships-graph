@@ -35,6 +35,7 @@ object main {
         }
     */
 
+    /*
     Content.getArticles("brexit").foreach{ articles =>
       articles.foreach{ content =>
         Content.getArticle(content.id).map{ oc =>
@@ -46,10 +47,11 @@ object main {
         }
       }
     }
+    */
 
-    /*
-    val things = Content.getArticles
+    val things = Content.getArticles("brexit")
     things.map { articles =>
+
       articles
         .map { article =>
           GraphStore
@@ -57,19 +59,20 @@ object main {
             |MERGE (a: Page {url:"${article.webUrl}"}) SET a.title="${article.webTitle}", a.path="${article.id}"
           """.stripMargin)
         }
+
       articles.map { article =>
         val links = Content.getLinksForArticle(article.id)
-        links.map { futureLink =>
-          futureLink.map { link =>
-            GraphStore.read(s"""
-               |MERGE(a: Page {url:"${article.webUrl}"})
-               |MERGE(b: Page {url:"${link.url}"})
-               |MERGE (a)-[:Link {text: "${link.text}", source: "${link.source}"}]->(b)
-             """.stripMargin)
-          }
+        // TODO: Inplement Content.getLinksForArticle
+        //links.map { futureLink =>
+        //  futureLink.map { link =>
+        //    GraphStore.read(s"""
+        //                       |MERGE(a: Page {url:"${article.webUrl}"})
+        //                       |MERGE(b: Page {url:"${link.url}"})
+        //                       |MERGE (a)-[:Link {text: "${link.text}", source: "${link.source}"}]->(b)
+        //     """.stripMargin)
+        //  }
         }
-      }
-    */
+    }
 
     /*
     GraphStore.read("""
