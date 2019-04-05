@@ -36,8 +36,14 @@ object Content {
     }
   }
 
-  def getLinksForArticle(id: String) = {
+  def getLinksForArticle(id: String) = {}
 
+  def getAtom(atom: Atom) = {
+    val value = s"atom/${atom.atomType}/${atom.atomId}"
+    val search = ContentApiClient.item(value)
+
+    val r = client.getResponse(search)
+    r.onFailure { case t => println(t.getStackTrace.toString) }
+    r
   }
-
 }

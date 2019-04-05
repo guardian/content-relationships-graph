@@ -5,8 +5,27 @@ import org.jsoup.Jsoup
 import scala.collection.JavaConverters._
 
 case class Link(url: String, source: String, text: String)
+case class Tweet(url: String, user: String)
 
-object ExtractLinks {
+object ExtractThings {
+  def extractTweeter(url: String) = {
+    url.split('/').lift(3).getOrElse("")
+  }
+  def extractTweets(content: Content): Seq[Tweet] = {
+    (for {
+      blocks <- content.blocks
+      body <- blocks.body
+    } yield
+      for {
+        block <- body
+        element <- block.elements
+      } yield
+        for {
+          tweet <- element.tweetTypeData
+          url <- tweet.url
+        } yield Tweet(url, extractTweeter(url))).getOrElse(Seq()).flatten
+  }
+
   def extractLinks(content: Content): Seq[Link] = {
     val bodyLinks = for {
       blocks <- content.blocks
