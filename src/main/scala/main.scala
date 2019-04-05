@@ -35,11 +35,14 @@ object main {
         }
     */
 
-
     Content.getArticles("brexit").foreach{ articles =>
       articles.foreach{ content =>
-        ExtractLinks.extractLinks(content).foreach{ link =>
-          println(link)
+        Content.getArticle(content.id).map{ oc =>
+          oc.map{ c =>
+            ExtractLinks.extractLinks(c).foreach{ link =>
+              println(link)
+            }
+          }
         }
       }
     }
