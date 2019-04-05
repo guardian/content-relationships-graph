@@ -3,23 +3,31 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object main {
   def main(args: Array[String]): Unit = {
 
-    // Extract CAPI object for one Article.
+    // Extract CAPI object for one Article and print to the terminal
     /*
     Content.getArticle("/politics/2019/apr/03/mps-pass-motion-to-debate-article-50-extension-by-one-vote")
-        .foreach{ocontent =>
-          ocontent.foreach{content =>
+        .foreach{maybeContent =>
+          maybeContent.foreach{content =>
             println(content)
           }
         }
     */
-    // Extract CAPI objects for a CAPI search term
-    // Content.getArticles()
+
+    // Extract CAPI objects for a CAPI search term, and print to the screen
+    /*
+    Content.getArticles("brexit")
+      .foreach{seq =>
+        seq.foreach{content =>
+          println(content)
+        }
+      }
+    */
 
     // Extract Links from Content (CAPI object)
     /*
     Content.getArticle("/politics/2019/apr/03/mps-pass-motion-to-debate-article-50-extension-by-one-vote")
-        .foreach{ maybeContent =>
-          maybeContent.foreach{ content =>
+        .foreach{ optContent =>
+          optContent.foreach{ content =>
             ExtractLinks.extractLinks(content).foreach{ link =>
               println(link)
             }
@@ -27,15 +35,14 @@ object main {
         }
     */
 
-    /*
-    Content.getArticles.foreach{ articles =>
+
+    Content.getArticles("brexit").foreach{ articles =>
       articles.foreach{ content =>
         ExtractLinks.extractLinks(content).foreach{ link =>
           println(link)
         }
       }
     }
-    */
 
     /*
     val things = Content.getArticles
@@ -61,6 +68,7 @@ object main {
       }
     */
 
+    /*
     GraphStore.read("""
           |MATCH (n:Page) WHERE NOT EXISTS (n.title) RETURN n.url
         """.stripMargin).map { result =>
@@ -77,5 +85,7 @@ object main {
           }
         }
     }
+    */
+
   }
 }

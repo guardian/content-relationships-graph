@@ -29,8 +29,8 @@ object Content {
       )
   }
 
-  def getArticles: Future[Seq[Content]] = {
-    val search = ContentApiClient.search.q("brexit")
+  def getArticles(term: String): Future[Seq[Content]] = {
+    val search = ContentApiClient.search.q(term)
     client.getResponse(search).map { response =>
       response.results
     }
