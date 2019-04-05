@@ -49,6 +49,7 @@ object main {
     }
     */
 
+    /*
     val things = Content.getArticles("brexit")
     things.map { articles =>
 
@@ -62,8 +63,8 @@ object main {
 
       articles.map { article =>
         val links = Content.getLinksForArticle(article.id)
-        // TODO: Inplement Content.getLinksForArticle
-        //links.map { futureLink =>
+        //// Below doesn't work because Content.getLinksForArticle is not currently implemented
+        // links.map { futureLink =>
         //  futureLink.map { link =>
         //    GraphStore.read(s"""
         //                       |MERGE(a: Page {url:"${article.webUrl}"})
@@ -73,6 +74,7 @@ object main {
         //  }
         }
     }
+    */
 
     /*
     GraphStore.read("""
