@@ -31,10 +31,11 @@ object main {
 
           }
           .flatMap(identity)
-      )) andThen {
-      case Success(_) => System.exit(0)
-      case _          => System.exit(1)
-    }
+      ))
+//    andThen {
+//      case Success(_) => System.exit(0)
+//      case _          => System.exit(1)
+//    }
 
   }
 
