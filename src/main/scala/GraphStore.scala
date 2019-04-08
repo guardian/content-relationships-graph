@@ -17,9 +17,9 @@ object GraphStore {
       val transaction = session.beginTransaction()
       transaction.run(something)
       transaction.success()
+      transaction.close()
     }
   def read(something: String): Future[List[Record]] = {
-    println("HELLO")
     val f = Future {
       val session = driver.session()
       val result = session.run(something) //can use a {} and parameters object?
@@ -30,7 +30,7 @@ object GraphStore {
   }
 
   def storeArticle(content: Content) = {
-    read(s"""
+    write(s"""
                 |MERGE (a: Page {url:"${content.webUrl}"}) SET a.title="${content.webTitle}", a.path="${content.id}
                 "
               """.stripMargin)
@@ -39,7 +39,7 @@ object GraphStore {
     val path = content.id
     val links = ExtractThings.extractLinks(content)
     links.map { link =>
-      read(s"""
+      write(s"""
                    |MERGE(a: Page {url:"${content.webUrl}"})
                    |MERGE(b: Page {url:"${link.url}"})
                    |MERGE (a)-[:Link {text: "${link.text}", source: "${link.source}"}]->(b)
@@ -47,10 +47,27 @@ object GraphStore {
 
     }
   }
-  def storeAtom(atom: Atom, path: String) = {
-    read(s"""
+  def storeArticleTweets(content: Content) = {
+    val tweets = ExtractThings.extractTweets(content)
+    tweets.map { tweet =>
+      write(s"""
+           |MERGE(tweet: Tweet {url: "${tweet.url}", user: "${tweet.user}"})
+           |MERGE(page: Page {url:"${content.webUrl}"})
+           |MERGE (page)-[:Contatins]->(tweet)
+         """.stripMargin)
+    }
+
+  }
+  def storeAtoms(content: Content) = {
+    Atoms.extractAtoms(content).map { atom =>
+      storeAtom(atom, content.webUrl)
+    }
+
+  }
+  def storeAtom(atom: Atom, url: String) = {
+    write(s"""
          |MERGE(atom: Atom {type: "${atom.atomType}", id: "${atom.atomId}"})
-         |MERGE(page: Page {path: "$path"})
+         |MERGE(page: Page {url: "$url"})
          |MERGE (page)-[:Contains]->(atom) 
        """.stripMargin)
   }

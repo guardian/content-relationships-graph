@@ -36,7 +36,11 @@ object Content {
     }
   }
 
-  def getLinksForArticle(id: String) = {}
+  def getLinksForArticle(id: String) = getArticle(id).map { maybeArticle =>
+    maybeArticle.map { article =>
+      ExtractThings.extractLinks(article)
+    }
+  }
 
   def getAtom(atom: Atom) = {
     val value = s"atom/${atom.atomType}/${atom.atomId}"
