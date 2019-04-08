@@ -11,7 +11,7 @@ object main {
             println(content)
           }
         }
-    */
+     */
 
     // Extract CAPI objects for a CAPI search term, and print to the screen
     /*
@@ -21,7 +21,7 @@ object main {
           println(content)
         }
       }
-    */
+     */
 
     // Extract Links from Content (CAPI object)
     /*
@@ -33,7 +33,7 @@ object main {
             }
           }
         }
-    */
+     */
 
     /*
     Content.getArticles("brexit").foreach{ articles =>
@@ -47,7 +47,7 @@ object main {
         }
       }
     }
-    */
+     */
 
     /*
     val things = Content.getArticles("brexit")
@@ -74,7 +74,7 @@ object main {
         //  }
         }
     }
-    */
+     */
 
     /*
     GraphStore.read("""
@@ -93,7 +93,7 @@ object main {
           }
         }
     }
-    */
+   */
 
   }
 }
