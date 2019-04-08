@@ -3,6 +3,7 @@ import org.neo4j.driver.v1._
 
 import scala.concurrent.Future
 import scala.collection.JavaConverters._
+import scala.util.Success
 
 object GraphStore {
   implicit val ec = scala.concurrent.ExecutionContext.global
@@ -71,6 +72,19 @@ object GraphStore {
          |MERGE (page)-[:Contains]->(atom) 
        """.stripMargin)
   }
+  def storePath(path: String) = {
+    Content
+      .getArticle(path)
+      .map { maybeContent =>
+        val content = maybeContent.get //This future should fail if we don't have content
+        Future.sequence(
+          Seq(GraphStore.storeArticle(content)) ++ GraphStore
+            .storeArticleLinks(content) ++ GraphStore
+            .storeArticleTweets(content) ++ GraphStore.storeAtoms(content))
+      }
+      .flatMap(identity)
+  }
+
   def close = driver.close()
 }
 //CREATE CONSTRAINT ON (n:Page) ASSERT n.uri IS UNIQUE;

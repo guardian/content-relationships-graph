@@ -10,7 +10,9 @@ libraryDependencies ++= Seq(
   "com.gu" %% "content-api-client-default" % "12.18",
   "org.jsoup" % "jsoup" % "1.11.3",
   "org.neo4j.driver" % "neo4j-java-driver" % "1.7.3",
-  "com.typesafe" % "config" % "1.3.2"
+  "com.typesafe" % "config" % "1.3.2",
+  "io.lemonlabs" %% "scala-uri" % "1.4.4"
+
 
 )
 
