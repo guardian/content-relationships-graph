@@ -13,7 +13,6 @@ object Atoms {
       element <- allBlocks.elements.toList
       atom <- element.contentAtomTypeData.toList
     } yield Atom(atom.atomId, atom.atomType)
-
   }
 
 }

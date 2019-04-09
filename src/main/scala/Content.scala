@@ -22,7 +22,6 @@ object Content {
       .showRelated(true)
       .showSection(true)
       .showTags("all")
-
     client
       .getResponse(article)
       .map(
@@ -50,12 +49,9 @@ object Content {
   def getAtomUses(atom: Atom) = {
     val value = s"atom/${atom.atomType}/${atom.atomId}"
     val atomType = AtomType.valueOf(atom.atomType).getOrElse(AtomType.Media)
-
     val search = ContentApiClient.atomUsage(atomType, atom.atomId)
-
     client.getResponse(search).map { resp =>
       resp.results
     }
-
   }
 }

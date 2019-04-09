@@ -21,6 +21,7 @@ object GraphStore {
       println("executed!")
       transaction.close()
     }
+
   def read(something: String): Future[List[Record]] = {
     val f = Future {
       val session = driver.session()
@@ -38,6 +39,7 @@ object GraphStore {
                 "
               """.stripMargin)
   }
+
   def storeArticleLinks(content: Content) = {
     val path = content.id
     val links = ExtractThings.extractLinks(content)
@@ -47,9 +49,9 @@ object GraphStore {
                    |MERGE(b: Page {url:"${link.url}"})
                    |MERGE (a)-[:Link {text: "${link.text}", source: "${link.source}"}]->(b)
                  """.stripMargin)
-
     }
   }
+
   def storeArticleTweets(content: Content) = {
     val tweets = ExtractThings.extractTweets(content)
     tweets.map { tweet =>
@@ -59,7 +61,6 @@ object GraphStore {
            |MERGE (page)-[:Contatins]->(tweet)
          """.stripMargin)
     }
-
   }
 
   def getAtoms() = {
@@ -84,7 +85,6 @@ object GraphStore {
           .filter(_.contains("https://www.theguardian.com"))
           .map(_.replace("https://www.theguardian.com", ""))
       }
-
   }
 
   def storeAtomUses(atom: Atom) = {
@@ -98,15 +98,14 @@ object GraphStore {
         )
       }
       .flatMap(identity)
-
   }
 
   def storeAtoms(content: Content) = {
     Atoms.extractAtoms(content).map { atom =>
       storeAtom(atom, content.webUrl)
     }
-
   }
+
   def storeAtom(atom: Atom, url: String) = {
     read(s"""
          |MERGE(atom: Atom {type: "${atom.atomType}", id: "${atom.atomId}"})
@@ -114,16 +113,33 @@ object GraphStore {
          |MERGE (page)-[:Contains]->(atom) 
        """.stripMargin)
   }
+
+  def storeTags(content: Content) = {
+    Tags.extractTags(content: Content).map{ tag =>
+      storeTag(tag, content.webUrl)
+    }
+  }
+
+  def storeTag(tag: Tag, url: String) = {
+    read(s"""
+            |MERGE(tag: Tag {id: "${tag.id}", id: "${tag.description}"})
+            |MERGE(page: Page {url: "$url"})
+            |MERGE (page)-[:Related]->(tag)
+       """.stripMargin)
+  }
+
   def storePath(path: String) = {
     Content
       .getArticle(path)
       .map { maybeContent =>
-        val content = maybeContent.get //This future should fail if we don't have content
+        val content = maybeContent.get // This future should fail if we don't have content
         Future.sequence(
-          Seq(GraphStore.storeArticle(content)) ++ GraphStore
-            .storeArticleLinks(content) ++
-//            GraphStore.storeArticleTweets(content) ++
-            GraphStore.storeAtoms(content))
+          Seq(
+            GraphStore.storeArticle(content)) ++
+            GraphStore.storeArticleLinks(content) ++
+            // GraphStore.storeArticleTweets(content) ++
+            GraphStore.storeAtoms(content) ++
+            GraphStore.storeTags(content))
       }
       .flatMap(identity)
   }
