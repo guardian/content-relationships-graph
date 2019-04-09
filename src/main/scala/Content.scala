@@ -31,7 +31,11 @@ object Content {
   }
 
   def getArticles(term: String): Future[Seq[Content]] = {
-    val search = ContentApiClient.search.q(term).pageSize(200)
+    val search = ContentApiClient
+      .search
+      .q(term)
+      .showTags("all")
+      .pageSize(200)
     client.getResponse(search).map { response =>
       response.results
     }
