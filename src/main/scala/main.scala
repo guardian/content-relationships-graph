@@ -4,27 +4,6 @@ import scala.util.Success
 
 object main {
   def main(args: Array[String]): Unit = {
-
-    /*
-    Content.getArticle("/politics/2019/apr/02/mps-seek-to-stop-no-deal-brexit-by-tabling-article-50-bill")
-        .map{maybeContents =>
-          maybeContents.map{content =>
-            println(content.tags)
-          }
-        }
-    */
-
-    Content
-      .getArticles("brexit")
-      .map { seq =>
-        seq.foreach { content =>
-          content.tags.foreach{tag =>
-            println(tag)
-          }
-        }
-      }
-
-    /*
     Future.sequence(
       Seq(
         Content
@@ -52,7 +31,5 @@ object main {
 //      case Success(_) => System.exit(0)
 //      case _          => System.exit(1)
 //    }
-
-     */
   }
 }
