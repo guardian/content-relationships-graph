@@ -1,5 +1,6 @@
 import com.gu.contentapi.client.model.v1.Content
 import com.gu.contentapi.client.{ContentApiClient, GuardianContentClient}
+import com.gu.contentatom.thrift.AtomType
 
 import scala.concurrent.Future
 
@@ -30,7 +31,7 @@ object Content {
   }
 
   def getArticles(term: String): Future[Seq[Content]] = {
-    val search = ContentApiClient.search.q(term)
+    val search = ContentApiClient.search.q(term).pageSize(200)
     client.getResponse(search).map { response =>
       response.results
     }
@@ -42,12 +43,15 @@ object Content {
     }
   }
 
-  def getAtom(atom: Atom) = {
+  def getAtomUses(atom: Atom) = {
     val value = s"atom/${atom.atomType}/${atom.atomId}"
-    val search = ContentApiClient.item(value)
+    val atomType = AtomType.valueOf(atom.atomType).getOrElse(AtomType.Media)
 
-    val r = client.getResponse(search)
-    r.onFailure { case t => println(t.getStackTrace.toString) }
-    r
+    val search = ContentApiClient.atomUsage(atomType, atom.atomId)
+
+    client.getResponse(search).map { resp =>
+      resp.results
+    }
+
   }
 }

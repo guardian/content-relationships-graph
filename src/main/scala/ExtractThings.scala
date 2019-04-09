@@ -3,6 +3,7 @@ import com.gu.contentapi.client.model.v1.{BlockElement, Content}
 import org.jsoup.Jsoup
 
 import scala.collection.JavaConverters._
+import io.lemonlabs.uri.Url
 
 case class Link(url: String, source: String, text: String)
 case class Tweet(url: String, user: String)
@@ -52,7 +53,10 @@ object ExtractThings {
             rl <- element.richLinkTypeData
             url <- rl.originalUrl
           } yield
-            List(Link(url, s"${source}RichLink", rl.linkText.getOrElse("")))
+            List(
+              Link(cleanURL(url),
+                   s"${source}RichLink",
+                   rl.linkText.getOrElse("")))
         case Text =>
           for {
             ttd <- element.textTypeData
@@ -62,6 +66,9 @@ object ExtractThings {
       }).getOrElse(List())
     }
   }
+  def cleanURL(url: String) = {
+    Url.parse(url).removeQueryString().toString
+  }
 
   def extractLinksFromText(string: String, source: String): List[Link] = {
     val doc = Jsoup.parse(string)
@@ -70,13 +77,13 @@ object ExtractThings {
       .select("[href]")
       .asScala
       .toList
-      .map(a => Link(a.attr("href"), s"${source}Link", a.text))
+      .map(a => Link(cleanURL(a.attr("href")), s"${source}Link", a.text))
     val srcs = doc
       .body()
       .select("[src]")
       .asScala
       .toList
-      .map(link => Link(link.attr("src"), s"${source}Src", link.text))
+      .map(link => Link(cleanURL(link.attr("src")), s"${source}Src", link.text))
     hrefs ++ srcs
   }
 }
