@@ -4,7 +4,6 @@ import scala.util.Success
 
 object main {
   def main(args: Array[String]): Unit = {
-
     Future.sequence(
       Seq(
         Content
@@ -32,7 +31,5 @@ object main {
 //      case Success(_) => System.exit(0)
 //      case _          => System.exit(1)
 //    }
-
   }
-
 }
