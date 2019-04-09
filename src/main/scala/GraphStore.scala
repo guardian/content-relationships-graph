@@ -62,14 +62,40 @@ object GraphStore {
 
   }
 
+  def getAtoms() = {
+    GraphStore
+      .read("""
+              |MATCH (atom:Atom) RETURN atom.type, atom.id
+            """.stripMargin)
+  }.map { atom =>
+    atom.map { a =>
+      Atom(a.get("atom.id").asString, a.get("atom.type").asString)
+    }
+  }
+
+  def getPagesWithoutTitle: Future[List[String]] = {
+    GraphStore
+      .read("""
+              |MATCH (n:Page) WHERE NOT EXISTS (n.title) RETURN n.url
+            """.stripMargin)
+      .map { records =>
+        records
+          .map(record => record.get("n.url").asString)
+          .filter(_.contains("https://www.theguardian.com"))
+          .map(_.replace("https://www.theguardian.com", ""))
+      }
+
+  }
+
   def storeAtomUses(atom: Atom) = {
     Content
       .getAtomUses(atom)
-      .map { paths =>
-        Future.sequence(paths.map { path =>
-          read(
-            s"""MERGE(a: Page {url:"https://www.theguardian.com/${path}"})""")
-        })
+      .map { uses =>
+        Future.sequence(
+          uses.map { use =>
+            GraphStore.storeAtom(atom, s"https://www.theguardian.com/$use")
+          }
+        )
       }
       .flatMap(identity)
 
