@@ -1,0 +1,94 @@
+@font-face {
+  font-family: "Headline";
+  src: url("https://pasteup.guim.co.uk/webfonts/1.0.0/noalts-not-hinted/GHGuardianHeadline-Bold.woff")
+    format("woff2");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "GuardianTextSans";
+  src: url("https://pasteup.guim.co.uk/webfonts/1.0.0/noalts-not-hinted/GuardianTextSans-Regular.woff")
+    format("woff2");
+  font-weight: regular;
+}
+@font-face {
+  font-family: "GuardianTextSans";
+  src: url("https://pasteup.guim.co.uk/webfonts/1.0.0/noalts-not-hinted/GuardianTextSans-Bold.woff")
+    format("woff2");
+  font-weight: bold;
+}
+/*thanks to laura for fonts  https://github.com/guardian/dotcom-rendering/blob/47a2dbef0eec434bdf6247b0e0c927a9e10c7d28/packages/design/src/components/fonts.css */
+@font-face {
+  font-family: "Egyptian";
+  src: url("https://pasteup.guim.co.uk/webfonts/1.0.0/noalts-not-hinted/GuardianTextEgyptian-Regular.woff")
+    format("woff2");
+  font-weight: regular;
+}
+
+@font-face {
+  font-family: "Egyptian";
+  src: url("https://pasteup.guim.co.uk/webfonts/1.0.0/noalts-not-hinted/GuardianTextEgyptian-Bold.woff")
+    format("woff2");
+  font-weight: bold;
+}
+
+.cards { 
+  display:flex;
+  height: 300px;
+  flex-direction: row;
+  overflow: scroll;
+
+}
+.card button {
+  display: flex;
+  width: 200px;
+  height: 250px;
+  padding: 10px;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+  margin: 10px;
+  font-family: Headline;
+  font-size: 1rem;
+  border: 1px solid gray;
+ 
+}
+.card button:hover, :focus {
+  background: pink;
+
+}
+.card img {
+  width: 200px;  
+  margin: -10px;
+  margin-bottom: 10px;
+ 
+}
+.more {
+  min-width: 200px;
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+  flex-direction: column;
+  font-family: GuardianTextSans;
+  font-size: 2em;
+  text-align: justify;
+}
+.toggles {
+  display: flex;
+  flex-direction: row;
+  font-family: GuardianTextSans;
+}
+.toggles input {
+  display: none;
+}
+.toggles label {
+  display: block;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 1000px;
+  background: grey;  
+}
+
+.toggles input:checked + label {
+  background: pink;
+}

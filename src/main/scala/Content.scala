@@ -1,4 +1,4 @@
-import com.gu.contentapi.client.model.v1.Content
+import com.gu.contentapi.client.model.v1.{AssetType, Content}
 import com.gu.contentapi.client.{ContentApiClient, GuardianContentClient}
 import com.gu.contentatom.thrift.AtomType
 
@@ -53,5 +53,20 @@ object Content {
     client.getResponse(search).map { resp =>
       resp.results
     }
+  }
+  def getThumb(content: Content) = {
+    (for {
+      blocks <- content.blocks
+      head <- blocks.main
+    } yield
+      (for {
+        element <- head.elements
+        asset <- element.assets if asset.`type` == AssetType.Image
+      } yield asset)
+        .sortBy(_.typeData.flatMap(_.width).getOrElse(0))
+        .reverse
+        .find(_.typeData.flatMap(_.width).getOrElse(9999) < 1999)
+        .flatMap(_.file)).flatten
+
   }
 }
