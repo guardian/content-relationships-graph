@@ -36,9 +36,9 @@ object GraphStore {
                 |MERGE (a: Page {url:"${content.webUrl}"}) SET a.title="${content.webTitle
               .replace('"', '`')}", a.path="${content.id}", a.image="${Content
               .getThumb(content)
-              .get}", a.published="${content.webPublicationDate
+              .get}", a.published=DateTime("${content.webPublicationDate
               .map(_.iso8601)
-              .get}"
+              .get}")
               """.stripMargin)
   }
   def storeArticleLinks(content: Content) = {
