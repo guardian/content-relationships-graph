@@ -2,8 +2,20 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.Success
 
+import scala.io.Source
+
+import io.circe.parser
+import io.circe.generic.semiauto.deriveDecoder
+
 object main {
   def main(args: Array[String]): Unit = {
+
+    /*
+      Usage of the Sample file:
+        val data: Option[XData] = XDataProcessing.readSampleFile()
+        println(data)
+     */
+
     Future.sequence(
       Seq(
         Content
@@ -27,9 +39,5 @@ object main {
           })
         }
       ))
-    //    andThen {
-//      case Success(_) => System.exit(0)
-//      case _          => System.exit(1)
-//    }
   }
 }
