@@ -2,9 +2,7 @@ name := "content-relationships-graph"
 
 version := "0.1"
 
-scalaVersion := "2.11.12"
-
-
+scalaVersion := "2.12.8"
 
 libraryDependencies ++= Seq(
   "com.gu" %% "content-api-client-default" % "12.18",
@@ -12,8 +10,6 @@ libraryDependencies ++= Seq(
   "org.neo4j.driver" % "neo4j-java-driver" % "1.7.3",
   "com.typesafe" % "config" % "1.3.2",
   "io.lemonlabs" %% "scala-uri" % "1.4.4"
-
-
 )
 
 //addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.0.0-RC5")
