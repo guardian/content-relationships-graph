@@ -12,4 +12,12 @@ libraryDependencies ++= Seq(
   "io.lemonlabs" %% "scala-uri" % "1.4.4"
 )
 
+val circeVersion = "0.10.0"
+
+libraryDependencies ++= Seq(
+  "io.circe"  %% "circe-core"     % circeVersion,
+  "io.circe"  %% "circe-generic"  % circeVersion,
+  "io.circe"  %% "circe-parser"   % circeVersion
+)
+
 //addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.0.0-RC5")

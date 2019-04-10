@@ -1,0 +1,319 @@
+{
+    "path": "/film/2019/apr/04/amazon-claims-woody-allen-sabotaged-films-with-metoo-comments",
+    "headline": "Amazon claims Woody Allen 'sabotaged' films with #MeToo comments",
+    "bodyText": "Amazon has responded to the $68m (£52m) breach of contract legal action launched by Woody Allen by saying that the director’s controversial comments over allegations of sexual abuse and the #MeToo campaign were responsible for the failure of his films, and justified their ending the multi-picture deal they had agreed with him. In legal documents filed in the southern district of New York, Amazon cited Allen’s response to his son Ronan Farrow’s landmark New Yorker article about allegations of sexual misconduct against Harvey Weinstein, in which Allen was quoted as saying: “The whole Harvey Weinstein thing is very sad for everybody involved … Tragic for the poor women that were involved, sad for Harvey that his life is so messed up.” He was also quoted as warning against a “witch hunt atmosphere … where every guy in an office who winks at a woman is suddenly having to call a lawyer to defend himself”. Weinstein denies all accusations of non-consensual sex. In a statement, Amazon said: “The [Ronan Farrow] article became the catalyst for a broad public reckoning over the persistence of sexual harassment in entertainment and other industries. Despite immediate consensus on the importance of acknowledging and addressing this issue, Allen made a series of public comments suggesting that he failed to grasp the gravity of the issues or the implications for his own career.” Amazon also cites Allen’s response to accusations in January 2018 of sexual assault by his daughter Dylan Farrow, which he denied by saying: “Even though the Farrow family is cynically using the opportunity afforded by the Time’s Up movement to repeat this discredited allegation, that doesn’t make it any more true today than it was in the past. I never molested my daughter – as all investigations concluded a quarter of a century ago.” After numerous actors, including Greta Gerwig, Rebecca Hall, Timothée Chalamet and Colin Firth, expressed their regret at having worked with him, Allen said: “I should be the poster boy for the #MeToo movement … I’ve worked with hundreds of actresses and not a single one – big ones, famous ones, ones starting out – have ever, ever suggested any kind of impropriety at all.” Amazon claim: “Allen’s statements came out just as Amazon and Allen were preparing to promote Allen’s film Wonder Wheel, effectively sabotaging those efforts … Understood in the broader context, Allen’s actions and their cascading consequences ensured that Amazon could never possibly receive the benefit of its four-picture agreement.” The streaming giant confirmed that after post-production work on Allen’s yet-to-be-released A Rainy Day in New York was completed in 2018, they terminated their agreement with the film-maker and were cancelling the release of the film due to “renewed allegations against Mr Allen, his own controversial comments and the increasing refusal of top talent to work with or be associated with him in any way”. Woody Allen’s representatives have been contacted for comment.",
+    "bylines": [
+        {
+            "Name": "Andrew Pulver",
+            "Gender": 0
+        }
+    ],
+    "people": [
+        {
+            "BeginOffset": 84,
+            "EndOffset": 95,
+            "Score": 0.9856677055358887,
+            "Text": "Woody Allen",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 405,
+            "EndOffset": 410,
+            "Score": 0.9512530565261841,
+            "Text": "Allen",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 433,
+            "EndOffset": 445,
+            "Score": 0.9982693195343018,
+            "Text": "Ronan Farrow",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 523,
+            "EndOffset": 539,
+            "Score": 0.9951552152633667,
+            "Text": "Harvey Weinstein",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 550,
+            "EndOffset": 555,
+            "Score": 0.996411144733429,
+            "Text": "Allen",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 589,
+            "EndOffset": 605,
+            "Score": 0.9761797189712524,
+            "Text": "Harvey Weinstein",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 703,
+            "EndOffset": 709,
+            "Score": 0.990641176700592,
+            "Text": "Harvey",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 913,
+            "EndOffset": 922,
+            "Score": 0.9760285019874573,
+            "Text": "Weinstein",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 1004,
+            "EndOffset": 1016,
+            "Score": 0.993070662021637,
+            "Text": "Ronan Farrow",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 1246,
+            "EndOffset": 1251,
+            "Score": 0.9966288208961487,
+            "Text": "Allen",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 1405,
+            "EndOffset": 1410,
+            "Score": 0.9931161999702454,
+            "Text": "Allen",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 1487,
+            "EndOffset": 1499,
+            "Score": 0.9995830655097961,
+            "Text": "Dylan Farrow",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 1545,
+            "EndOffset": 1551,
+            "Score": 0.9742413759231567,
+            "Text": "Farrow",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 1859,
+            "EndOffset": 1871,
+            "Score": 0.9992192387580872,
+            "Text": "Greta Gerwig",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 1873,
+            "EndOffset": 1885,
+            "Score": 0.999638557434082,
+            "Text": "Rebecca Hall",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 1887,
+            "EndOffset": 1904,
+            "Score": 0.9990277290344238,
+            "Text": "Timothée Chalamet",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 1909,
+            "EndOffset": 1920,
+            "Score": 0.9995822906494141,
+            "Text": "Colin Firth",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 1972,
+            "EndOffset": 1977,
+            "Score": 0.9987782835960388,
+            "Text": "Allen",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 2217,
+            "EndOffset": 2222,
+            "Score": 0.9838066101074219,
+            "Text": "Allen",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 2264,
+            "EndOffset": 2269,
+            "Score": 0.930008590221405,
+            "Text": "Allen",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 2296,
+            "EndOffset": 2301,
+            "Score": 0.9919233918190002,
+            "Text": "Allen",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 2397,
+            "EndOffset": 2402,
+            "Score": 0.9946573376655579,
+            "Text": "Allen",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 2604,
+            "EndOffset": 2609,
+            "Score": 0.9831051230430603,
+            "Text": "Allen",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 2813,
+            "EndOffset": 2818,
+            "Score": 0.9990845918655396,
+            "Text": "Allen",
+            "Type": "PERSON",
+            "Gender": 0
+        },
+        {
+            "BeginOffset": 2944,
+            "EndOffset": 2955,
+            "Score": 0.9965457320213318,
+            "Text": "Woody Allen",
+            "Type": "PERSON",
+            "Gender": 0
+        }
+    ],
+    "locations": [
+        {
+            "BeginOffset": 382,
+            "EndOffset": 390,
+            "Score": 0.9875016212463379,
+            "Text": "New York",
+            "Type": "LOCATION"
+        },
+        {
+            "BeginOffset": 2646,
+            "EndOffset": 2654,
+            "Score": 0.9950326681137085,
+            "Text": "New York",
+            "Type": "LOCATION"
+        }
+    ],
+    "organisations": [
+        {
+            "BeginOffset": 0,
+            "EndOffset": 6,
+            "Score": 0.9991258978843689,
+            "Text": "Amazon",
+            "Type": "ORGANIZATION"
+        },
+        {
+            "BeginOffset": 190,
+            "EndOffset": 196,
+            "Score": 0.3349006772041321,
+            "Text": "#MeToo",
+            "Type": "ORGANIZATION"
+        },
+        {
+            "BeginOffset": 392,
+            "EndOffset": 398,
+            "Score": 0.9968505501747131,
+            "Text": "Amazon",
+            "Type": "ORGANIZATION"
+        },
+        {
+            "BeginOffset": 457,
+            "EndOffset": 467,
+            "Score": 0.6096574664115906,
+            "Text": "New Yorker",
+            "Type": "ORGANIZATION"
+        },
+        {
+            "BeginOffset": 985,
+            "EndOffset": 991,
+            "Score": 0.9907532930374146,
+            "Text": "Amazon",
+            "Type": "ORGANIZATION"
+        },
+        {
+            "BeginOffset": 1387,
+            "EndOffset": 1393,
+            "Score": 0.9948071837425232,
+            "Text": "Amazon",
+            "Type": "ORGANIZATION"
+        },
+        {
+            "BeginOffset": 1610,
+            "EndOffset": 1619,
+            "Score": 0.6844722032546997,
+            "Text": "Time’s Up",
+            "Type": "ORGANIZATION"
+        },
+        {
+            "BeginOffset": 2202,
+            "EndOffset": 2208,
+            "Score": 0.97940593957901,
+            "Text": "Amazon",
+            "Type": "ORGANIZATION"
+        },
+        {
+            "BeginOffset": 2253,
+            "EndOffset": 2259,
+            "Score": 0.993731677532196,
+            "Text": "Amazon",
+            "Type": "ORGANIZATION"
+        },
+        {
+            "BeginOffset": 2459,
+            "EndOffset": 2465,
+            "Score": 0.9977527260780334,
+            "Text": "Amazon",
+            "Type": "ORGANIZATION"
+        }
+    ],
+    "creativeWorkTitles": [
+        {
+            "BeginOffset": 2309,
+            "EndOffset": 2321,
+            "Score": 0.986492395401001,
+            "Text": "Wonder Wheel",
+            "Type": "TITLE"
+        },
+        {
+            "BeginOffset": 2631,
+            "EndOffset": 2642,
+            "Score": 0.7906354665756226,
+            "Text": "A Rainy Day",
+            "Type": "TITLE"
+        }
+    ],
+    "commercialItems": null,
+    "events": null
+}
