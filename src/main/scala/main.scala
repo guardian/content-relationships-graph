@@ -16,13 +16,8 @@ import akka.http.scaladsl.model._
 import scala.io.StdIn
 
 object main {
-
+  
   def main(args: Array[String]): Unit = {
-    println("Querying Jonathan's API")
-    XDataQueryPoster.runXDataRequest("/uk-news/2019/apr/11/meghan-and-harry-want-to-celebrate-birth-of-baby-in-private")
-  }
-
-  def main_1(args: Array[String]): Unit = {
     implicit val system = ActorSystem("my-system")
     implicit val materializer = ActorMaterializer()
     // needed for the future flatMap/onComplete in the end
