@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const Card = ({title,image}) => (
+export const Card = ({title,image, click}) => (
 <div className="card">
-    <button href="#">
-    <img alt={title} src={image}/>
+    <button href="#" onClick={()=>{click?click():console.log(title)}}>
+    {image && <img alt={title} src={image}/>}
     {title}
     </button>
 </div>)

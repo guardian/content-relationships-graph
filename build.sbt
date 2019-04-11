@@ -1,4 +1,3 @@
-
 name := "content-relationships-graph"
 
 version := "0.1"
@@ -17,6 +16,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.8",
   "com.typesafe.akka" %% "akka-stream" % "2.5.22",
   "io.spray" %% "spray-json" % "1.3.5",
+  "ch.megard" %% "akka-http-cors" % "0.4.0",
   "io.circe"  %% "circe-core"     % circeVersion,
   "io.circe"  %% "circe-generic"  % circeVersion,
   "io.circe"  %% "circe-parser"   % circeVersion

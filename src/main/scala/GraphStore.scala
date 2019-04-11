@@ -206,7 +206,12 @@ object GraphStore {
             case _ => None
           }
         } else {
-          Some(Left(path))
+          (row.get("l.text"), row.get("a.url")) match {
+            case (Some(link: String), Some(url: String)) =>
+              Some(
+                Left(link -> url.replace("https://www.theguardian.com/", "")))
+            case _ => None
+          }
         }
       }
     }
@@ -234,7 +239,25 @@ object GraphStore {
             case _ => None
           }
         } else {
-          Some(Left(path))
+          (row.get("l.text"), row.get("a.url")) match {
+            case (Some(link: String), Some(url: String)) =>
+              Some(
+                Left(link -> url.replace("https://www.theguardian.com/", "")))
+            case _ => None
+          }
+        }
+      }
+    }
+  }
+
+  def getAtoms(path: String) = {
+    read(
+      "MATCH (: Page {path: {path}})-[:Contains]->(a: Atom) RETURN a.type, a.id",
+      Map("path" -> path)) map { atoms =>
+      atoms map (_.asMap.asScala) flatMap { atom =>
+        (atom.get("a.type"), atom.get("a.id")) match {
+          case (Some(t: String), Some(i: String)) => Some(Atom(i, t))
+          case _                                  => None
         }
       }
     }
