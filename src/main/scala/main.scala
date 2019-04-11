@@ -158,7 +158,7 @@ object main {
 //        GraphStore.read(
 //          "CREATE CONSTRAINT ON (n:Page) ASSERT n.path IS UNIQUE;"),
         Content
-          .getArticles("assange")
+          .getArticles("brexit")
           .map { seq =>
             seq.foreach { content =>
               val path = content.id
