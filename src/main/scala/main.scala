@@ -10,11 +10,19 @@ import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import io.circe._, io.circe.generic.auto._, io.circe.parser._, io.circe.syntax._
-
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
+import akka.http.scaladsl.marshalling.Marshal
+import akka.http.scaladsl.model._
 import scala.io.StdIn
 
 object main {
+
   def main(args: Array[String]): Unit = {
+    println("Querying Jonathan's API")
+    XDataQueryPoster.runXDataRequest("/uk-news/2019/apr/11/meghan-and-harry-want-to-celebrate-birth-of-baby-in-private")
+  }
+
+  def main_1(args: Array[String]): Unit = {
     implicit val system = ActorSystem("my-system")
     implicit val materializer = ActorMaterializer()
     // needed for the future flatMap/onComplete in the end
@@ -97,10 +105,15 @@ object main {
   def load() = {
 
     /*
-      Usage of the Sample file:
+        // Usage of reading Jonathan's sample file:
         val data: Option[XData] = XDataProcessing.readSampleFile()
         println(data)
      */
+
+    /*
+        // Usage of querying Jonathan's API:
+        XDataQueryPoster.runXDataRequest("/uk-news/2019/apr/11/meghan-and-harry-want-to-celebrate-birth-of-baby-in-private")
+    */
 
     Future.sequence(
       Seq(

@@ -1,3 +1,4 @@
+
 name := "content-relationships-graph"
 
 version := "0.1"
@@ -13,13 +14,13 @@ libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.3.2",
   "io.lemonlabs" %% "scala-uri" % "1.4.4",
   "com.typesafe.akka" %% "akka-http"   % "10.1.8",
-  "com.typesafe.akka" %% "akka-stream" % "2.5.22",  
+  "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.8",
+  "com.typesafe.akka" %% "akka-stream" % "2.5.22",
+  "io.spray" %% "spray-json" % "1.3.5",
   "io.circe"  %% "circe-core"     % circeVersion,
   "io.circe"  %% "circe-generic"  % circeVersion,
   "io.circe"  %% "circe-parser"   % circeVersion
 )
-
-
 
 
 //addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.0.0-RC5")
