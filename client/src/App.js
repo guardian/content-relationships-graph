@@ -8,13 +8,13 @@ const App = () => {
   const [path, setPath] = useState("politics/2019/mar/25/mps-seize-control-of-brexit-process-by-backing-indicative-votes-amendment")
   return (
     <>
-      <input type="text" value={path} onChange={e=>setPath(e.target.value)}/>
+      <input type="text" value={path} onChange={e => setPath(e.target.value)} />
 
       <>
         <Page path={path} reload={() => setPath(path)} />
         Links in the article:
       <Links path={path} changePath={setPath} />
-        Links to the article: 
+        Links to the article:
       <Links path={path} to changePath={setPath} />
         Atoms:
       <Atoms path={path} changePath={setPath} />
@@ -32,7 +32,7 @@ const Atoms = ({ path, changePath }) => {
   useEffect(() => {
     fetch(`http://localhost:8080/atom/${path}`).then(_ => _.json()).then(xs => {
       setAtoms(xs.reduce((o, atom, i) => ({ ...o, [`${atom.atomType} ${i}`]: `${atom.atomType}/${atom.atomId}` }), {}))
-    }).catch((error=>{
+    }).catch((error => {
       console.log(error)
       setAtoms([])
       setPages([])
@@ -44,7 +44,7 @@ const Atoms = ({ path, changePath }) => {
 
       setPages(ps)
       console.log(ps)
-    }).catch((error=>{
+    }).catch((error => {
       console.log(error)
       setPages([])
     }))
@@ -71,7 +71,7 @@ const Page = ({ path, reload }) => {
       fetch(`http://localhost:8080/content/${path}`).then(_ => _.json()).then(page => {
         console.log(page)
         storePage(page)
-      }).catch(err=>{
+      }).catch(err => {
         console.log(err)
         storePage(null)
       })
@@ -79,9 +79,8 @@ const Page = ({ path, reload }) => {
   )
 
   return (<>
-  {path}
     {page !== null &&
-    
+
       <Card title={page.title} image={page.image} handler={reload} />
     }</>
   )
@@ -106,7 +105,7 @@ const Links = ({ path, to, changePath }) => {
         }
       })
       setLinks(ls)
-    }).catch(error=>{
+    }).catch(error => {
       console.log(error)
       setLinks([])
     })
