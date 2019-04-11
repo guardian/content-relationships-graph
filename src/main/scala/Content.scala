@@ -1,8 +1,14 @@
-import com.gu.contentapi.client.model.v1.{AssetType, Content}
+import com.gu.contentapi.client.model.v1.{AssetType, CapiDateTime, Content}
 import com.gu.contentapi.client.{ContentApiClient, GuardianContentClient}
 import com.gu.contentatom.thrift.AtomType
 
 import scala.concurrent.Future
+
+case class Page(url: String,
+                title: String,
+                path: String,
+                image: String,
+                published: String)
 
 object Content {
   val key = Config.capi.key
@@ -30,8 +36,7 @@ object Content {
   }
 
   def getArticles(term: String): Future[Seq[Content]] = {
-    val search = ContentApiClient
-      .search
+    val search = ContentApiClient.search
       .q(term)
       .showTags("all")
       .pageSize(200)
@@ -69,4 +74,5 @@ object Content {
         .flatMap(_.file)).flatten
 
   }
+  def cleanTitle(title: String) = title.replace('"', '`')
 }

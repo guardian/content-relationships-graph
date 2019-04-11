@@ -12,18 +12,9 @@ object GraphStore {
     Config.database.uri,
     AuthTokens.basic(Config.database.username, Config.database.password))
 
-  def write(something: String) =
-    Future {
-      val session = driver.session()
-      val transaction = session.beginTransaction()
-      transaction.run(something)
-      transaction.success()
-      println("executed!")
-      transaction.close()
-    }
-
-  def read(something: String): Future[List[Record]] = {
+  def read(something: String): Future[List[Record]] = synchronized {
     val f = Future {
+
       val session = driver.session()
       val result = session.run(something) //can use a {} and parameters object?
       result.list().asScala.toList
@@ -31,16 +22,28 @@ object GraphStore {
     f.onFailure { case t => println(s"Exception: ${t.getMessage}") }
     f
   }
+  def read(something: String,
+           parameters: Map[String, AnyRef]): Future[List[Record]] = {
+    val f = Future {
+      val session = driver.session()
+      val result = session.run(something, parameters.asJava) //can use a {} and parameters object?
 
-  def storeArticle(content: Content) = {
-    read(s"""
-                |MERGE (a: Page {url:"${content.webUrl}"}) SET a.title="${content.webTitle
-              .replace('"', '`')}", a.path="${content.id}", a.image="${Content
-              .getThumb(content)
-              .get}", a.published=DateTime("${content.webPublicationDate
-              .map(_.iso8601)
-              .get}")
-              """.stripMargin)
+      result.list().asScala.toList
+    }
+    f.onFailure { case t => println(s"Exception: ${t.getMessage}") }
+    f
+  }
+  def storeArticle(page: Page) = {
+    read(
+      "MERGE (a: Page {url: {url}}) SET a.title={title}, a.path={path}, a.image= {image}, a.published=DateTime({published}) ",
+      Map(
+        "url" -> page.url,
+        "path" -> page.path,
+        "image" -> page.image,
+        "published" -> page.published,
+        "title" -> page.title
+      )
+    )
   }
 
   def storeArticleLinks(content: Content) = {
@@ -118,17 +121,24 @@ object GraphStore {
   }
 
   def storeTags(content: Content) = {
-    Tags.extractTags(content: Content).map{ tag =>
+    Tags.extractTags(content: Content).map { tag =>
       storeTag(tag, content.webUrl)
     }
   }
 
   def storeTag(tag: Tag, url: String) = {
-    read(s"""
-            |MERGE(tag: Tag {id: "${tag.id}", id: "${tag.description}"})
-            |MERGE(page: Page {url: "$url"})
+    read(
+      """
+            |MERGE(tag: Tag {id: {id}, id: {description}})
+            |MERGE(page: Page {url: {url}})
             |MERGE (page)-[:Related]->(tag)
-       """.stripMargin)
+       """.stripMargin,
+      Map(
+        "id" -> tag.id,
+        "description" -> tag.description,
+        "url" -> url
+      )
+    )
   }
 
   def storePath(path: String) = {
@@ -136,15 +146,98 @@ object GraphStore {
       .getArticle(path)
       .map { maybeContent =>
         val content = maybeContent.get // This future should fail if we don't have content
+        val page = Page(content.webUrl,
+                        Content.cleanTitle(content.webTitle),
+                        content.id,
+                        Content.getThumb(content).getOrElse(""),
+                        content.webPublicationDate.map(_.iso8601).get)
         Future.sequence(
-          Seq(
-            GraphStore.storeArticle(content)) ++
+          Seq(GraphStore.storeArticle(page)) ++
             GraphStore.storeArticleLinks(content) ++
             // GraphStore.storeArticleTweets(content) ++
             GraphStore.storeAtoms(content) ++
             GraphStore.storeTags(content))
       }
       .flatMap(identity)
+  }
+  def fetchArticle(path: String) = {
+    println(path)
+    read(
+      "MATCH (a: Page {path: {path}}) RETURN a.url, a.title, a.path, a.image, a.published",
+      Map("path" -> path)) map { result =>
+      result.headOption.map(_.asMap.asScala).map { row =>
+        (row.get("a.url"),
+         row.get("a.title"),
+         row.get("a.path"),
+         row.get("a.image"),
+         row.get("a.published").map(_.toString))
+      } match {
+        case Some(
+            (Some(url: String),
+             Some(title: String),
+             Some(path: String),
+             Some(image: String),
+             Some(published: String))) =>
+          Some(Page(url, title, path, image, published))
+        case _ => None
+
+      }
+    }
+  }
+  def fetchOutboundLinks(path: String) = {
+    read(
+      "MATCH (:Page {path:{path}})-[l:Link]->(a:Page) return l.text, a.url, a.title, a.path, a.image, a.published",
+      Map("path" -> path)) map { result =>
+      result.map(_.asMap.asScala) flatMap { row =>
+        if (!row.values.exists(_ == null)) {
+          (row.get("l.text"),
+           row.get("a.url"),
+           row.get("a.title"),
+           row.get("a.path"),
+           row.get("a.image"),
+           row.get("a.published").map(_.toString)) match {
+            case (Some(link: String),
+                  Some(url: String),
+                  Some(title: String),
+                  Some(path: String),
+                  Some(image: String),
+                  Some(published: String)) =>
+              Some(Right(link -> Page(url, title, path, image, published)))
+            case _ => None
+          }
+        } else {
+          Some(Left(path))
+        }
+      }
+    }
+  }
+
+  def fetchInboundLinks(path: String) = {
+    read(
+      "MATCH (:Page {path:{path}})<-[l:Link]-(a:Page) return l.text, a.url, a.title, a.path, a.image, a.published",
+      Map("path" -> path)) map { result =>
+      result.map(_.asMap.asScala) flatMap { row =>
+        if (!row.values.exists(_ == null)) {
+          (row.get("l.text"),
+           row.get("a.url"),
+           row.get("a.title"),
+           row.get("a.path"),
+           row.get("a.image"),
+           row.get("a.published").map(_.toString)) match {
+            case (Some(link: String),
+                  Some(url: String),
+                  Some(title: String),
+                  Some(path: String),
+                  Some(image: String),
+                  Some(published: String)) =>
+              Some(Right(link -> Page(url, title, path, image, published)))
+            case _ => None
+          }
+        } else {
+          Some(Left(path))
+        }
+      }
+    }
   }
 
   def close = driver.close()
