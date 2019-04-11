@@ -105,6 +105,28 @@ object main {
             }
           }
         }
+      } ~ path("embeds" / Segments(2)) {
+        case atomType :: atomId :: Nil =>
+          onComplete(GraphStore.getAtomUses(Atom(atomType, atomId))) {
+            case Success(pages) => complete(pages.asJson.toString)
+            case Failure(ex) =>
+              complete(
+                HttpEntity(ContentTypes.`text/html(UTF-8)`,
+                           s"<h1>oh no ${ex}</h1>"))
+          }
+        case _ => complete("not found sorry")
+      } ~ pathPrefix("parentlinks" / Segment) { str =>
+        val in = str == "in"
+        pathSuffix(Remaining) { path =>
+          onComplete(GraphStore.fetchParentLinks(path, in)) {
+            case Success(pages) => complete(pages.asJson.toString)
+            case Failure(ex) =>
+              complete(
+                HttpEntity(ContentTypes.`text/html(UTF-8)`,
+                           s"<h1>oh no ${ex}</h1>")
+              )
+          }
+        }
       }
     }
     val bindingFuture = Http().bindAndHandle(route, "localhost", 8080)

@@ -217,6 +217,40 @@ object GraphStore {
     }
   }
 
+  def fetchParentLinks(path: String, in: Boolean) = {
+    val arrow = if (in) ("<-", "-") else ("-", "->")
+    read(
+      s"""MATCH (:Page {path:{path}})${arrow._1}[:Link]${arrow._2}(:Page)${arrow._1}[:Link]${arrow._2}(a:Page) return a.url, a.title, a.path, a.image, a.published""",
+      Map("path" -> path)
+    ) map { result =>
+      println(result)
+      result.map(_.asMap.asScala) flatMap { row =>
+        println(row)
+        if (!row.values.exists(_ == null)) {
+          (row.get("a.url"),
+           row.get("a.title"),
+           row.get("a.path"),
+           row.get("a.image"),
+           row.get("a.published").map(_.toString)) match {
+            case (Some(url: String),
+                  Some(title: String),
+                  Some(path: String),
+                  Some(image: String),
+                  Some(published: String)) =>
+              Some(Right(Page(url, title, path, image, published)))
+            case _ => None
+          }
+        } else {
+          row.get("a.url") match {
+            case Some(url: String) =>
+              Some(Left(url.replace("https://www.theguardian.com/", "")))
+            case _ => None
+          }
+        }
+      }
+    }
+  }
+
   def fetchInboundLinks(path: String) = {
     read(
       "MATCH (:Page {path:{path}})<-[l:Link]-(a:Page) return l.text, a.url, a.title, a.path, a.image, a.published",
@@ -262,7 +296,30 @@ object GraphStore {
       }
     }
   }
-
+  def getAtomUses(atom: Atom) = {
+    println(atom)
+    read(
+      "MATCH (p: Page)-[:Contains]->(a: Atom {id: {id}, type: {type}}) RETURN p.url, p.title, p.path, p.image, p.published",
+      Map("id" -> atom.atomId, "type" -> atom.atomType)
+    ) map { result =>
+      result.map(_.asMap.asScala) flatMap { row =>
+        println(row)
+        (row.get("p.url"),
+         row.get("p.title"),
+         row.get("p.path"),
+         row.get("p.image"),
+         row.get("p.published").map(_.toString)) match {
+          case (Some(url: String),
+                Some(title: String),
+                Some(path: String),
+                Some(image: String),
+                Some(published: String)) =>
+            Some(Page(url, title, path, image, published))
+          case _ => None
+        }
+      }
+    }
+  }
   def close = driver.close()
 }
 //CREATE CONSTRAINT ON (n:Page) ASSERT n.uri IS UNIQUE;

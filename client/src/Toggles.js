@@ -1,13 +1,13 @@
 import  React  from 'react';
-export const Toggles = ({toggles, handler})=>{
+export const Toggles = ({toggles, selected, handler})=>{
     const handle = (toggle) => (event) => { 
-        console.log(toggle, event.target.checked)
+        handler && handler(toggle)
     }
     return(
 <div className="toggles">
-{Object.keys(toggles).map(toggle => (
+{toggles.map(toggle => (
     <div key={toggle}>
-        <input type="checkbox" onChange={handle(toggle)} checked={toggles[toggle]} id={toggle}/>
+        <input type="checkbox" onChange={handle(toggle)} checked={toggle === selected} id={toggle}/>
         <label htmlFor={toggle}>{toggle}</label>
     </div>
 ))}

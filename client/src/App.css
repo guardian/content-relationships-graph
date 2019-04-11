@@ -34,7 +34,7 @@
 
 .cards { 
   display:flex;
-  height: 300px;
+  height: 340px;
   flex-direction: row;
   overflow: scroll;
 
@@ -42,16 +42,23 @@
 .card button {
   display: flex;
   width: 200px;
-  height: 250px;
+  height: 300px;
   padding: 10px;
   flex-direction: column;
   justify-content: flex-start;
   overflow: hidden;
   margin: 10px;
-  font-family: Headline;
   font-size: 1rem;
   border: 1px solid gray;
  
+}
+.card .title {
+  font-family: Headline;
+  
+}
+.card .link {
+  font-family: Egyptian;
+font-style: italic;
 }
 .card button:hover, :focus {
   background: pink;
@@ -91,4 +98,12 @@
 
 .toggles input:checked + label {
   background: pink;
+}
+
+input {
+  width: 100vw;
+  height: 2em;
+  font-size: 2em;
+  font-family: GuardianTextSans;
+  border: none;
 }
